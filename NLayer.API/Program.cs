@@ -1,3 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using NLayer.Core.Repository;
+using NLayer.Core.UnitOfWorks;
+using NLayer.Repository;
+using NLayer.Repository.UnitOfWorks;
+using System.Reflection;
+using NLayer.Core;
+using NLayer.Repository.Repositories;
+
 namespace NLayer.API
 {
     public class Program
@@ -12,6 +21,20 @@ namespace NLayer.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+
+            builder.Services.AddScoped<IUnitOfWorks,UnitOfWork>();
+            builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
+
+            builder.Services.AddDbContext<AppDbContext>(x=>
+            {
+                x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"), option =>
+
+                option.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name));
+            });
+
+             
+
 
             var app = builder.Build();
 
