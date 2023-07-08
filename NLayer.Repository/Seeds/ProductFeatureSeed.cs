@@ -32,7 +32,7 @@ namespace NLayer.Repository.Seeds
             },
                  new ProductFeature()
             {
-                Id=1,
+                Id=3,
                 Color="Yeşil",
                 Height=100,
                 Width=300,
