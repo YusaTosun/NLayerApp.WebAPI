@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NLayer.Core.NewFolder
 {
-    public class ProductFeatureDTO
+    public class ProductFeatureDto
     {
         public int Id { get; set; }
         public string Color { get; set; }
