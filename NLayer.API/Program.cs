@@ -37,7 +37,7 @@ namespace NLayer.API
             });
             builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
 
-            builder.Services.AddAutoMapper(typeof(MapProfile)); /// todo: Burasý Profile da yapýlabilir miydi ??
+            builder.Services.AddAutoMapper(typeof(MapProfile)); /// todo: Burasý Profile da yapýlabilir miydi ?? 
 
 
             var app = builder.Build();

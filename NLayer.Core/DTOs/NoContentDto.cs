@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NLayer.Core.NewFolder
+namespace NLayer.Core.DTOs
 {
-    public class CategoryDTO
+    public class NoContentDto
     {
-        public string Name { get; set; }      
     }
 }
