@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NLayer.Services.Services
 {
-    public class Service<T> : IServices<T> where T : class
+    public class Service<T> : IService<T> where T : class
     {
         private readonly IGenericRepository<T> _repository;
         private readonly IUnitOfWorks _unitOfWorks;
