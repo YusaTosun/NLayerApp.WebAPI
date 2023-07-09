@@ -6,6 +6,9 @@ using NLayer.Repository.UnitOfWorks;
 using System.Reflection;
 using NLayer.Core;
 using NLayer.Repository.Repositories;
+using NLayer.Core.Services;
+using NLayer.Services.Services;
+using NLayer.Services.Mapping;
 
 namespace NLayer.API
 {
@@ -32,8 +35,9 @@ namespace NLayer.API
 
                 option.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name));
             });
+            builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
 
-             
+            builder.Services.AddAutoMapper(typeof(MapProfile)); /// todo: Burasý Profile da yapýlabilir miydi ??
 
 
             var app = builder.Build();
