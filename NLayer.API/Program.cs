@@ -36,9 +36,11 @@ namespace NLayer.API
                 option.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name));
             });
             builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
-
             builder.Services.AddAutoMapper(typeof(MapProfile)); /// todo: Burasý Profile da yapýlabilir miydi ?? 
 
+
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<IProductService, ProductService>();
 
             var app = builder.Build();
 
