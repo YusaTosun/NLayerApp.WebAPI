@@ -9,6 +9,9 @@ using NLayer.Repository.Repositories;
 using NLayer.Core.Services;
 using NLayer.Services.Services;
 using NLayer.Services.Mapping;
+using FluentValidation.AspNetCore;
+using NLayer.Core.DTOs;
+using NLayer.Services.Validations;
 
 namespace NLayer.API
 {
@@ -20,16 +23,16 @@ namespace NLayer.API
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<ProductDtoValidator>());
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
 
-            builder.Services.AddScoped<IUnitOfWorks,UnitOfWork>();
-            builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
+            builder.Services.AddScoped<IUnitOfWorks, UnitOfWork>();
+            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
-            builder.Services.AddDbContext<AppDbContext>(x=>
+            builder.Services.AddDbContext<AppDbContext>(x =>
             {
                 x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"), option =>
 

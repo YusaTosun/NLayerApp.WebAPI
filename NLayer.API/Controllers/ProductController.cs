@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NLayer.Core.DTOs;
 using NLayer.Core.Models;
-using NLayer.Core.NewFolder;
+using NLayer.Core.DTOs;
 using NLayer.Core.Services;
 
 namespace NLayer.API.Controllers
@@ -11,21 +11,19 @@ namespace NLayer.API.Controllers
     public class ProductController : CustomBaseController
     {
         private readonly IMapper _mapper;
-        private readonly IService<Product> _service;
-        private readonly IProductService productService;
+        private readonly IProductService _service;
 
         public ProductController(IMapper mapper, IService<Product> service, IProductService productService)
         {
             _mapper = mapper;
-            _service = service;
-            this.productService = productService;
+            _service = productService;
         }
 
         //[HttpGet("GetProductWithCategory")]
         [HttpGet("[action]")]
         public async Task<IActionResult> GetProductsWithCategory()
         {
-            return CreateActionResult(await productService.GetProductWithCategory());
+            return CreateActionResult(await _service.GetProductWithCategory());
         }
 
         [HttpGet]
