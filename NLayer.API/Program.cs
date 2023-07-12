@@ -14,6 +14,7 @@ using NLayer.Core.DTOs;
 using NLayer.Services.Validations;
 using NLayer.API.Filters;
 using Microsoft.AspNetCore.Mvc;
+using NLayer.API.Middlewares;
 
 namespace NLayer.API
 {
@@ -66,10 +67,12 @@ namespace NLayer.API
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI();  //todo: app'le baþlayýp use ile devam edenler Middleware
             }
 
             app.UseHttpsRedirection();
+
+            app.UserCustomException();
 
             app.UseAuthorization();
 
