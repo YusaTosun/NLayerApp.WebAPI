@@ -12,6 +12,8 @@ using NLayer.Services.Mapping;
 using FluentValidation.AspNetCore;
 using NLayer.Core.DTOs;
 using NLayer.Services.Validations;
+using NLayer.API.Filters;
+using Microsoft.AspNetCore.Mvc;
 
 namespace NLayer.API
 {
@@ -23,7 +25,17 @@ namespace NLayer.API
 
             // Add services to the container.
 
-            builder.Services.AddControllers().AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<ProductDtoValidator>());
+            builder.Services.AddControllers(options =>
+            {
+                options.Filters.Add(new ValidateFilterAttribute());
+            }).
+            AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<ProductDtoValidator>()); // todo: Bu methodu incele
+
+            builder.Services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
