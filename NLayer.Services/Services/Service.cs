@@ -2,6 +2,7 @@
 using NLayer.Core.Repository;
 using NLayer.Core.Services;
 using NLayer.Core.UnitOfWorks;
+using NLayer.Services.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace NLayer.Services.Services
 
         public async Task<bool> Any(Expression<Func<T, bool>> expression)
         {
-           return await _repository.AnyAsync(expression);
+            return await _repository.AnyAsync(expression);
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
@@ -48,13 +49,19 @@ namespace NLayer.Services.Services
 
         public async Task<T> GetByIdAsync(int id)
         {
-          return  await _repository.GetByIdAsync(id);
+            var hasProduct = await _repository.GetByIdAsync(id);
+
+            if (hasProduct==null)
+            {
+                throw new ClientSideException($"{typeof(T).Name}({id}) not found");
+            }
+            return hasProduct;
         }
 
         public async Task RemoveAsync(T Entity)
         {
-           _repository.Remove(Entity);
-           await _unitOfWorks.CommitAsync();
+            _repository.Remove(Entity);
+            await _unitOfWorks.CommitAsync();
         }
 
         public async Task RemoveRangeAsync(IEnumerable<T> entities)
@@ -71,8 +78,8 @@ namespace NLayer.Services.Services
 
         public IQueryable<T> Where(Expression<Func<T, bool>> expression)
         {
-           return _repository.Where(expression);
-          
+            return _repository.Where(expression);
+
         }
     }
 }
