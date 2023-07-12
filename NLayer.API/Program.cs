@@ -41,6 +41,7 @@ namespace NLayer.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddScoped(typeof(NotFoundFilter<>));
 
             builder.Services.AddScoped<IUnitOfWorks, UnitOfWork>();
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

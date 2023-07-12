@@ -37,7 +37,7 @@ namespace NLayer.Services.Services
             return entities;
         }
 
-        public async Task<bool> Any(Expression<Func<T, bool>> expression)
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> expression)
         {
             return await _repository.AnyAsync(expression);
         }
