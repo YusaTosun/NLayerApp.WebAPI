@@ -15,6 +15,9 @@ using NLayer.Services.Validations;
 using NLayer.API.Filters;
 using Microsoft.AspNetCore.Mvc;
 using NLayer.API.Middlewares;
+using Autofac.Extensions.DependencyInjection;
+using Autofac;
+using NLayer.API.Modules;
 
 namespace NLayer.API
 {
@@ -43,8 +46,6 @@ namespace NLayer.API
 
             builder.Services.AddScoped(typeof(NotFoundFilter<>));
 
-            builder.Services.AddScoped<IUnitOfWorks, UnitOfWork>();
-            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             builder.Services.AddDbContext<AppDbContext>(x =>
             {
@@ -52,15 +53,22 @@ namespace NLayer.API
 
                 option.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name));
             });
-            builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
+
+            #region Old DepencyInjections
+            //builder.Services.AddScoped<IUnitOfWorks, UnitOfWork>();
+            //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            //builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
+            //builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            //builder.Services.AddScoped<IProductService, ProductService>();
+            //builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            //builder.Services.AddScoped<ICategoryService, CategoryService>(); 
+            #endregion
+
+
             builder.Services.AddAutoMapper(typeof(MapProfile)); /// todo: Burasý Profile da yapýlabilir miydi ?? 
+            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+            builder.Host.ConfigureContainer<ContainerBuilder>(containerbuilder => containerbuilder.RegisterModule(new RepoServiceModule()));
 
-
-            builder.Services.AddScoped<IProductRepository, ProductRepository>();
-            builder.Services.AddScoped<IProductService, ProductService>();
-
-            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-            builder.Services.AddScoped<ICategoryService, CategoryService>();
 
             var app = builder.Build();
 
