@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using NLayer.Caching;
 using NLayer.Core.Repository;
 using NLayer.Core.Services;
 using NLayer.Core.UnitOfWorks;
@@ -31,6 +32,8 @@ namespace NLayer.API.Modules
 
             //InstancePerLifetimeScope => Scope
             //InstancePerDependency => Transient
+
+            builder.RegisterType<ProductServiceWithCaching>().As<IProductService>();
         }
     }
 }
